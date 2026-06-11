@@ -3,12 +3,6 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/PagadalaBhavyaSree/Simplybyte_calculator.git'
-            }
-        }
-
         stage('Build Image') {
             steps {
                 bat 'docker build -t calculator-app .'
