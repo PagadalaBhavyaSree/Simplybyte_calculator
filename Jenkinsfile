@@ -14,7 +14,7 @@ pipeline {
                 bat '''
                 docker stop calculator-container 2>NUL
                 docker rm calculator-container 2>NUL
-                docker run -d -p 5000:5000 --name calculator-container calculator-app
+                docker run -d -p 5050:5000 --name calculator-container calculator-app
                 '''
             }
         }
