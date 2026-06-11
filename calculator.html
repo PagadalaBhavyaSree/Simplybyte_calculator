@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Simple Calculator</title>
-  <style>
-    body {
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Calculator</title>
+
+<style>
+body {
     font-family: 'Segoe UI', sans-serif;
     background: linear-gradient(135deg, #4184ff, #4eff1e);
     display: flex;
@@ -15,16 +16,15 @@
     margin: 0;
 }
 
-/* Calculator Box */
 .calculator {
+    width: fit-content;
     background: #1e293b;
     padding: 25px;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-    border: 1px solid rgba(71, 255, 255, 0.903);
+    border: 1px solid rgba(71, 255, 255, 0.9);
 }
 
-/* Display Screen */
 #result {
     width: 100%;
     height: 70px;
@@ -35,19 +35,17 @@
     border: none;
     border-radius: 12px;
     background: #ff0bda;
-    color: #ffffff;
+    color: white;
     box-sizing: border-box;
     outline: none;
 }
 
-/* Button Grid */
 .buttons {
     display: grid;
     grid-template-columns: repeat(4, 70px);
     gap: 12px;
 }
 
-/* General Buttons */
 .buttons button {
     height: 65px;
     font-size: 1.3rem;
@@ -55,88 +53,105 @@
     border: none;
     border-radius: 12px;
     background: #0d6cf0;
-    color: rgb(255, 117, 117);
+    color: white;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
-/* Hover Effect */
 .buttons button:hover {
     transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(99, 74, 74, 0.705);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
-/* Click Effect */
 .buttons button:active {
     transform: scale(0.95);
 }
 
-/* Operators */
-.buttons button.operator {
-    background: linear-gradient(135deg, #ff9800, #ff5722);
+.operator {
+    background: linear-gradient(135deg, #ff9800, #ff5722) !important;
 }
 
-/* Equal Button */
-.buttons button.equal {
-    background: linear-gradient(135deg, #00c853, #009624);
-    grid-column: span 2;
+.equal {
+    background: linear-gradient(135deg, #00c853, #009624) !important;
 }
 
-/* Clear Button */
-.buttons button.clear {
-    background: linear-gradient(135deg, #ff1744, #d50000);
-    grid-column: span 2;
+.clear {
+    background: linear-gradient(135deg, #ff1744, #d50000) !important;
+}
+
+.backspace {
+    background: linear-gradient(135deg, #9c27b0, #673ab7) !important;
 }
 </style>
 </head>
+
 <body>
 
-  <div class="calculator">
-    <input type="text" id="result" disabled />
+<div class="calculator">
+    <input type="text" id="result" disabled>
+
     <div class="buttons">
-      <button onclick="appendValue('7')">7</button>
-      <button onclick="appendValue('8')">8</button>
-      <button onclick="appendValue('9')">9</button>
-      <button class="operator" onclick="appendValue('/')">÷</button>
+        <button onclick="clearResult()" class="clear">C</button>
+        <button onclick="backspace()" class="backspace">⌫</button>
+        <button class="operator" onclick="appendValue('/')">÷</button>
+        <button class="operator" onclick="appendValue('*')">×</button>
 
-      <button onclick="appendValue('4')">4</button>
-      <button onclick="appendValue('5')">5</button>
-      <button onclick="appendValue('6')">6</button>
-      <button class="operator" onclick="appendValue('*')">×</button>
+        <button onclick="appendValue('7')">7</button>
+        <button onclick="appendValue('8')">8</button>
+        <button onclick="appendValue('9')">9</button>
+        <button class="operator" onclick="appendValue('-')">−</button>
 
-      <button onclick="appendValue('1')">1</button>
-      <button onclick="appendValue('2')">2</button>
-      <button onclick="appendValue('3')">3</button>
-      <button class="operator" onclick="appendValue('-')">−</button>
+        <button onclick="appendValue('4')">4</button>
+        <button onclick="appendValue('5')">5</button>
+        <button onclick="appendValue('6')">6</button>
+        <button class="operator" onclick="appendValue('+')">+</button>
 
-      <button onclick="appendValue('0')">0</button>
-      <button onclick="appendValue('.')">.</button>
-      <button class="equal" onclick="calculate()">=</button>
-      <button class="operator" onclick="appendValue('+')">+</button>
+        <button onclick="appendValue('1')">1</button>
+        <button onclick="appendValue('2')">2</button>
+        <button onclick="appendValue('3')">3</button>
+        <button onclick="appendValue('.')">.</button>
 
-      <button class="clear" onclick="clearResult()">C</button>
+        <button onclick="appendValue('0')">0</button>
+        <button class="equal" onclick="calculate()" style="grid-column: span 3;">=</button>
     </div>
-  </div>
+</div>
 
-  <script>
-    const result = document.getElementById('result');
+<script>
+const result = document.getElementById("result");
 
-    function appendValue(val) {
-      result.value += val;
+function appendValue(val) {
+    const operators = ['+', '-', '*', '/'];
+    const lastChar = result.value.slice(-1);
+
+    if (operators.includes(val) && operators.includes(lastChar)) {
+        return;
     }
 
-    function calculate() {
-      try {
-        result.value = eval(result.value);
-      } catch {
+    result.value += val;
+}
+
+function calculate() {
+    try {
+        let answer = eval(result.value);
+
+        if (!isFinite(answer)) {
+            result.value = "Error";
+        } else {
+            result.value = answer;
+        }
+    } catch {
         result.value = "Error";
-      }
     }
+}
 
-    function clearResult() {
-      result.value = '';
-    }
-  </script>
+function clearResult() {
+    result.value = "";
+}
+
+function backspace() {
+    result.value = result.value.slice(0, -1);
+}
+</script>
 
 </body>
 </html>
