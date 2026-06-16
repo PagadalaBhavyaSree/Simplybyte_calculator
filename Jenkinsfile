@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Test Docker') {
             steps {
-                bat 'docker --version'
+                bat '"C:\\Users\\RELIANCE\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe" --version'
             }
         }
     }
